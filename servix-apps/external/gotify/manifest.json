@@ -1,0 +1,15 @@
+{
+  "id": "gotify",
+  "name": "Gotify",
+  "version": "latest",
+  "description": "Simple server for sending push notifications.",
+  "category": "Messaging",
+  "developer": "Gotify Team",
+  "icon": "🔔",
+  "port": 80,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

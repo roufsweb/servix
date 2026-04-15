@@ -1,0 +1,15 @@
+{
+  "id": "syncthing",
+  "name": "Syncthing",
+  "version": "latest",
+  "description": "Continuous file synchronization.",
+  "category": "Utilities",
+  "developer": "Syncthing Team",
+  "icon": "🔄",
+  "port": 8384,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

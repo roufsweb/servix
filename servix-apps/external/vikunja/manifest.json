@@ -1,0 +1,15 @@
+{
+  "id": "vikunja",
+  "name": "Vikunja",
+  "version": "latest",
+  "description": "To-do list and task management.",
+  "category": "Productivity",
+  "developer": "Vikunja Team",
+  "icon": "✅",
+  "port": 3456,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

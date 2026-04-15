@@ -1,0 +1,15 @@
+{
+  "id": "gitea",
+  "name": "Gitea",
+  "version": "1.21.7",
+  "description": "Lightweight self-hosted Git service.",
+  "category": "Development",
+  "developer": "Gitea Team",
+  "icon": "☕",
+  "port": 3000,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

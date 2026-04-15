@@ -1,0 +1,15 @@
+{
+  "id": "navidrome",
+  "name": "Navidrome",
+  "version": "latest",
+  "description": "High-performance music streaming server.",
+  "category": "Media",
+  "developer": "Navidrome Team",
+  "icon": "🎵",
+  "port": 4533,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "caddy",
+  "name": "Caddy",
+  "version": "latest",
+  "description": "Modern web server with auto-HTTPS.",
+  "category": "Networking",
+  "developer": "Stack Exchange",
+  "icon": "🚀",
+  "port": 80,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

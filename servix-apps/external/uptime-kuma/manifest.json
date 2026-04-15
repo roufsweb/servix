@@ -1,0 +1,15 @@
+{
+  "id": "uptime-kuma",
+  "name": "Uptime Kuma",
+  "version": "latest",
+  "description": "Service uptime monitor (Web UI).",
+  "category": "Monitoring",
+  "developer": "Louis Lam",
+  "icon": "📈",
+  "port": 3001,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

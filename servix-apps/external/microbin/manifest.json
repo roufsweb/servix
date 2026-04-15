@@ -1,0 +1,15 @@
+{
+  "id": "microbin",
+  "name": "Microbin",
+  "version": "latest",
+  "description": "Minimalist pastebin service.",
+  "category": "Utilities",
+  "developer": "Microbin Team",
+  "icon": "📝",
+  "port": 8080,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

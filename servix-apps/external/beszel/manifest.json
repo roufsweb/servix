@@ -1,0 +1,15 @@
+{
+  "id": "beszel",
+  "name": "Beszel",
+  "version": "latest",
+  "description": "Simple system stats dashboard.",
+  "category": "Monitoring",
+  "developer": "Beszel Team",
+  "icon": "📊",
+  "port": 8090,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

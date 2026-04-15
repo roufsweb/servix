@@ -1,0 +1,15 @@
+{
+  "id": "filebrowser",
+  "name": "FileBrowser",
+  "version": "latest",
+  "description": "Feature-rich web file manager.",
+  "category": "Utilities",
+  "developer": "FileBrowser Team",
+  "icon": "📁",
+  "port": 8080,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}
