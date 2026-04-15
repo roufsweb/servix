@@ -51,6 +51,40 @@ fastify.get('/api/apps', async (request, reply) => {
   }
 });
 
+fastify.post('/api/apps/:id/action/:actionId', async (request, reply) => {
+  const { id, actionId } = request.params;
+  const { isInternal } = request.query;
+  
+  const baseDir = isInternal === 'true' ? CORE_APPS_DIR : APPS_DIR;
+  const appPath = path.join(baseDir, id);
+  const manifestPath = path.join(appPath, 'manifest.json');
+
+  try {
+    const manifest = await fs.readJson(manifestPath);
+    const action = manifest.actions?.find(a => a.id === actionId);
+    
+    if (!action) return reply.status(404).send({ error: 'Action not found' });
+
+    const scriptPath = path.join(appPath, action.script);
+    
+    // Execute script and return output
+    const { exec } = require('child_process');
+    return new Promise((resolve, reject) => {
+      exec(`bash ${scriptPath}`, { cwd: appPath }, (error, stdout, stderr) => {
+        if (error) {
+          fastify.log.error(error);
+          resolve({ success: false, output: stderr || error.message });
+        } else {
+          resolve({ success: true, output: stdout });
+        }
+      });
+    });
+  } catch (err) {
+    fastify.log.error(err);
+    return reply.status(500).send({ error: 'Failed to execute action' });
+  }
+});
+
 // --- File Explorer API ---
 
 fastify.get('/api/files/ls', async (request, reply) => {

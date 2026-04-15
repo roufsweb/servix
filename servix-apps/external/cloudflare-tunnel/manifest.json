@@ -6,6 +6,9 @@
   "category": "Networking",
   "developer": "Cloudflare",
   "icon": "☁️",
+  "actions": [
+    { "id": "login", "label": "Login to Cloudflare", "script": "setup.sh" }
+  ],
   "scripts": {
     "install": "install.sh",
     "start": "start.sh",

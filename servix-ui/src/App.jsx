@@ -45,25 +45,62 @@ const NavItem = ({ href, icon, label, active }) => (
 
 // Pages
 const Dashboard = () => {
-  const [apps] = useState([
-    { name: 'Jellyfin', icon: '💿', status: 'Running', port: 8096 },
-    { name: 'Homebridge', icon: '🏠', status: 'Stopped', port: 8581 },
-    { name: 'Cloudflared', icon: '☁️', status: 'Running' },
-    { name: 'QuickShare', icon: '📁', status: 'Stopped', port: 8080 },
-  ]);
+  const [apps, setApps] = useState([]);
+  const [actionResult, setActionResult] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/apps')
+      .then(res => res.json())
+      .then(data => setApps(data))
+      .catch(err => console.error('Failed to fetch apps', err));
+  }, []);
+
+  const runAction = async (appId, actionId) => {
+    setActionResult({ title: 'Running Action...', output: 'Please wait...' });
+    try {
+      const res = await fetch(`/api/apps/${appId}/action/${actionId}`, { method: 'POST' });
+      const data = await res.json();
+      setActionResult({ title: 'Action Result', output: data.output });
+    } catch (err) {
+      setActionResult({ title: 'Error', output: err.message });
+    }
+  };
 
   return (
     <div className="app-grid">
+      {actionResult && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div className="glass" style={{ maxWidth: '600px', width: '100%', padding: '32px', borderRadius: '24px' }}>
+            <h3 style={{ marginBottom: '16px' }}>{actionResult.title}</h3>
+            <pre style={{ background: 'rgba(0,0,0,0.3)', padding: '16px', borderRadius: '12px', overflowX: 'auto', fontSize: '13px', whiteSpace: 'pre-wrap', maxHeight: '300px' }}>
+              {actionResult.output}
+            </pre>
+            <button className="btn" style={{ marginTop: '24px', width: '100%' }} onClick={() => setActionResult(null)}>Close</button>
+          </div>
+        </div>
+      )}
       {apps.map(app => (
-        <div key={app.name} className="app-card glass">
+        <div key={app.id} className="app-card glass">
           <div style={{ fontSize: '40px', marginBottom: '12px' }}>{app.icon}</div>
           <div style={{ fontWeight: '600', marginBottom: '4px' }}>{app.name}</div>
-          <div style={{ fontSize: '12px', color: app.status === 'Running' ? '#10b981' : 'var(--text-muted)', marginBottom: '16px' }}>
+          <div style={{ fontSize: '12px', color: app.status === 'running' ? '#10b981' : 'var(--text-muted)', marginBottom: '16px' }}>
              ● {app.status}
           </div>
-          <button className="btn" style={{ width: '100%', background: app.status === 'Running' ? 'rgba(239, 68, 68, 0.2)' : 'var(--accent)', color: app.status === 'Running' ? '#ef4444' : 'white' }}>
-            {app.status === 'Running' ? 'Stop' : 'Start'}
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <button className="btn" style={{ width: '100%', background: app.status === 'running' ? 'rgba(239, 68, 68, 0.2)' : 'var(--accent)', color: app.status === 'running' ? '#ef4444' : 'white' }}>
+              {app.status === 'running' ? 'Stop' : 'Start'}
+            </button>
+            {app.actions && app.actions.map(action => (
+              <button 
+                key={action.id}
+                className="btn" 
+                style={{ width: '100%', background: 'rgba(255,255,255,0.05)', color: 'var(--text)', fontSize: '12px' }}
+                onClick={() => runAction(app.id, action.id)}
+              >
+                {action.label}
+              </button>
+            ))}
+          </div>
         </div>
       ))}
       <div className="app-card glass" style={{ borderStyle: 'dashed', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

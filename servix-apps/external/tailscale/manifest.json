@@ -1,0 +1,19 @@
+{
+  "id": "tailscale",
+  "name": "Tailscale",
+  "version": "latest",
+  "description": "Zero config VPN. Works via Userspace Networking.",
+  "category": "Networking",
+  "developer": "Tailscale Inc.",
+  "icon": "🛡️",
+  "port": 0,
+  "actions": [
+    { "id": "login", "label": "Login / Connect", "script": "setup.sh" },
+    { "id": "status", "label": "Check Status", "script": "status.sh" }
+  ],
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}
