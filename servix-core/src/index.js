@@ -1,12 +1,20 @@
 const fastify = require('fastify')({ logger: true });
-const path = require('path');
+const cors = require('@fastify/cors');
+const { exec, spawn } = require('child_process');
 const fs = require('fs-extra');
-const cors = require('fastify-cors');
-const setupTerminal = require('./terminal');
+const path = require('path');
+const { setupTerminal } = require('./terminal');
+const pkg = require('../package.json');
 
 // Register CORS
 fastify.register(cors, {
   origin: '*', // For development, tighten this in production
+});
+
+// Serve Static UI
+fastify.register(require('@fastify/static'), {
+  root: path.join(__dirname, '../../servix-ui/dist'),
+  prefix: '/',
 });
 
 // Setup Terminal WebSocket
@@ -93,6 +101,40 @@ fastify.get('/api/sysinfo', async (request, reply) => {
     cpu: os.cpus()[0].model,
     load: os.loadavg(),
   };
+});
+
+// --- System API ---
+fastify.get('/api/system/status', async (request, reply) => {
+  return {
+    version: pkg.version,
+    platform: 'linux-termux',
+    environment: 'proot-ubuntu'
+  };
+});
+
+fastify.post('/api/system/update', async (request, reply) => {
+  fastify.log.info('System update requested...');
+  
+  // Detached update process
+  const updateScript = `
+    echo "Starting update..."
+    sleep 2
+    git pull origin main
+    npm install
+    pm2 restart all
+  `;
+
+  const scriptPath = path.join(__dirname, 'update.sh');
+  await fs.writeFile(scriptPath, updateScript);
+  await fs.chmod(scriptPath, '755');
+
+  spawn('sh', [scriptPath], {
+    detached: true,
+    stdio: 'ignore',
+    cwd: path.join(__dirname, '..', '..') // Root of the project
+  }).unref();
+
+  return { success: true, message: 'Update script triggered. System will restart in 2 seconds.' };
 });
 
 // Start Server

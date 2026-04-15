@@ -1,11 +1,11 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { Route, Switch, Link, useLocation } from 'wouter';
-import { LayoutGrid, Folder, Terminal as TerminalIcon, Settings, HardDrive, Cpu } from 'lucide-preact';
+import { LayoutGrid, Folder, Terminal as TerminalIcon, Cpu, RefreshCw, CheckCircle } from 'lucide-preact';
 import { WebTerminal } from './components/Terminal';
 import { FileManager } from './components/FileManager';
 
 // Components
-const Sidebar = () => {
+const Sidebar = ({ version, onUpdate }) => {
   const [location] = useLocation();
   
   return (
@@ -19,9 +19,16 @@ const Sidebar = () => {
         <NavItem href="/terminal" icon={<TerminalIcon size={20} />} label="Terminal" active={location === '/terminal'} />
       </div>
       <div style={{ padding: '20px', borderTop: '1px solid var(--border)' }}>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>
-          <Cpu size={14} /> 12% | <HardDrive size={14} /> 45%
+        <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          Server v{version || '1.0.0'}
         </div>
+        <button 
+          onClick={onUpdate}
+          className="btn" 
+          style={{ width: '100%', fontSize: '12px', display: 'flex', gap: '8px', justifyContent: 'center', background: 'rgba(255,255,255,0.05)' }}
+        >
+          <RefreshCw size={14} /> Update System
+        </button>
       </div>
     </div>
   );
@@ -66,10 +73,47 @@ const Dashboard = () => {
   );
 };
 
+const UpdatingOverlay = () => (
+  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(20px)', zIndex: 1000, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="glass" style={{ padding: '40px', textAlign: 'center', borderRadius: '24px', border: '1px solid var(--accent)' }}>
+      <RefreshCw size={48} className="spin" style={{ color: 'var(--accent)', marginBottom: '24px' }} />
+      <h2 style={{ marginBottom: '8px' }}>Updating Servix</h2>
+      <p style={{ color: 'var(--text-muted)' }}>Pulling latest changes and restarting services...</p>
+    </div>
+  </div>
+);
+
 export const App = () => {
+  const [system, setSystem] = useState({ version: '1.0.0' });
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/system/status')
+      .then(res => res.json())
+      .then(data => setSystem(data))
+      .catch(err => console.error('Failed to fetch system status', err));
+  }, []);
+
+  const handleUpdate = async () => {
+    if (!confirm('Update Servix to the latest version? The system will restart.')) return;
+    
+    setIsUpdating(true);
+    try {
+      await fetch('/api/system/update', { method: 'POST' });
+      // The overlay stays until the page reloads (triggered by user or timeout)
+      setTimeout(() => {
+        window.location.reload();
+      }, 10000); // 10 seconds for restart
+    } catch (err) {
+      alert('Update failed: ' + err.message);
+      setIsUpdating(false);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
-      <Sidebar />
+      {isUpdating && <UpdatingOverlay />}
+      <Sidebar version={system.version} onUpdate={handleUpdate} />
       <div className="main-content">
         <Switch>
           <Route path="/" component={Dashboard} />

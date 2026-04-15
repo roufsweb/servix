@@ -1,7 +1,7 @@
 {
   "name": "servix-core",
-  "version": "0.1.0",
-  "description": "The lightweight heart of Servix",
+  "version": "1.0.0",
+  "description": "Servix platform core backend",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
