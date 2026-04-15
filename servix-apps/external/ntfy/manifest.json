@@ -1,0 +1,15 @@
+{
+  "id": "ntfy",
+  "name": "ntfy",
+  "version": "2.11.0",
+  "description": "Simple HTTP-based pub-sub notification service.",
+  "category": "Messaging",
+  "developer": "Philipp C. Heckel",
+  "icon": "🔔",
+  "port": 8081,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

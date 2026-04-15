@@ -6,7 +6,7 @@
   "category": "Utilities",
   "developer": "Microbin Team",
   "icon": "📝",
-  "port": 8080,
+  "port": 8083,
   "scripts": {
     "install": "install.sh",
     "start": "start.sh",

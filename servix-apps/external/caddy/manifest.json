@@ -6,7 +6,7 @@
   "category": "Networking",
   "developer": "Stack Exchange",
   "icon": "🚀",
-  "port": 80,
+  "port": 8084,
   "scripts": {
     "install": "install.sh",
     "start": "start.sh",

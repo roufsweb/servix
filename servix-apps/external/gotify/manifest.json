@@ -6,7 +6,7 @@
   "category": "Messaging",
   "developer": "Gotify Team",
   "icon": "🔔",
-  "port": 80,
+  "port": 8083,
   "scripts": {
     "install": "install.sh",
     "start": "start.sh",
