@@ -1,0 +1,14 @@
+{
+  "id": "homebridge",
+  "name": "Homebridge",
+  "version": "latest",
+  "description": "Smart Home integration for everything.",
+  "category": "Home Automation",
+  "developer": "Homebridge Team",
+  "icon": "🏠",
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

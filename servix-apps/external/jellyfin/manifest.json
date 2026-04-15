@@ -1,0 +1,15 @@
+{
+  "id": "jellyfin",
+  "name": "Jellyfin",
+  "version": "10.8.13",
+  "description": "The volunteer-built media solution.",
+  "category": "Media",
+  "port": 8096,
+  "developer": "Jellyfin Team",
+  "icon": "💿",
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

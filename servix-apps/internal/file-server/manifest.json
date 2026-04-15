@@ -1,0 +1,15 @@
+{
+  "id": "file-server",
+  "name": "QuickShare",
+  "version": "1.0.0",
+  "description": "A simple drag-and-drop file server.",
+  "category": "Utilities",
+  "developer": "Servix Labs",
+  "icon": "📁",
+  "port": 8080,
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}

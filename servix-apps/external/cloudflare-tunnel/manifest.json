@@ -1,0 +1,14 @@
+{
+  "id": "cloudflare-tunnel",
+  "name": "Cloudflare Tunnel",
+  "version": "latest",
+  "description": "Expose your Servix apps to the internet securely.",
+  "category": "Networking",
+  "developer": "Cloudflare",
+  "icon": "☁️",
+  "scripts": {
+    "install": "install.sh",
+    "start": "start.sh",
+    "stop": "stop.sh"
+  }
+}
