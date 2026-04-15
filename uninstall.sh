@@ -13,8 +13,12 @@ then
 fi
 
 echo "🛑 Stopping services (if any)..."
-# In a proot environment, we just need to kill the processes
+# Stop PM2 inside proot
+proot-distro login ubuntu -- bash -c "pm2 delete all && pm2 kill" || true
 pkill -f "node" || true
+
+echo "🔋 Releasing Wake Lock..."
+termux-wake-unlock || true
 
 echo "🧹 Removing Ubuntu proot..."
 proot-distro remove ubuntu

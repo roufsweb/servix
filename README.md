@@ -4,18 +4,29 @@ A lightweight, user-space application platform designed for **Android Termux** a
 
 ![Aesthetic Dashboard Preview](https://via.placeholder.com/800x400?text=Servix+Dashboard+Glassmorphism)
 
+## 🚀 One-Line Installation (Recommended)
+Paste this into your Termux:
+```bash
+pkg install curl -y && curl -sL https://raw.githubusercontent.com/roufsweb/servix/main/install.sh | bash
+```
+
+## 🗑️ One-Line Uninstallation
+```bash
+curl -sL https://raw.githubusercontent.com/roufsweb/servix/main/uninstall.sh | bash
+```
+
 ## ✨ Features
 - **Ultra-Low Resource**: Background overhead < 100MB RAM.
 - **Ubuntu proot**: High compatibility with homelab apps (Jellyfin, Homebridge, etc.).
+- **Persistence**: Managed by **PM2** - starts automatically and stays running.
 - **Interactive Terminal**: Built-in web-based terminal for direct command access.
 - **File Manager**: Navigate and manage your files through a premium UI.
-- **Modular Apps**: Easy to add/remove apps via simple shell scripts.
 
-## 📦 Installation (Termux)
+## 📦 Manual Installation (Termux)
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/servix.git
+   git clone https://github.com/roufsweb/servix.git
    cd servix
    ```
 
