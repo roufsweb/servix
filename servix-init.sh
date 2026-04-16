@@ -57,11 +57,32 @@ proot-distro login ubuntu -- bash -c "$(cat setup_inside.sh)"
 
 rm setup_inside.sh
 
-# 7. Start Services via PM2
+# 7. Sync Files into Ubuntu
+echo "📂 Synchronizing files into Ubuntu..."
+# Detect rootfs path
+UBUNTU_PATH="$PREFIX/var/lib/proot-distro/installed-distros/ubuntu/root/servix"
+rm -rf "$UBUNTU_PATH"
+mkdir -p "$UBUNTU_PATH"
+# Use '.' to copy current directory (which is the cloned repo)
+cp -r ./* "$UBUNTU_PATH/"
+
+# 8. Start Services via PM2
 echo "⚡ Starting Servix Services..."
 proot-distro login ubuntu -- bash -c "cd /root/servix/servix-core && npm install && pm2 start src/index.js --name servix-core"
-# Note: In a real termux setup, we would also install/start the UI here if needed.
+
+# 9. Get Local IP Address
+LOCAL_IP=$(ifconfig wlan0 | grep 'inet ' | awk '{print $2}' || hostname -I | awk '{print $1}')
 
 echo "✨ Servix Environment Setup Complete!"
-echo "Servix is now running in the background via PM2."
+echo "------------------------------------------------------"
+echo "📱 Access the Dashboard on your phone:"
+echo "👉 http://localhost:3000"
+echo ""
+echo "💻 Access from your PC (Connected via USB):"
+echo "1. Run this on your PC: adb forward tcp:3000 tcp:3000"
+echo "2. Open: http://localhost:3000"
+echo ""
+echo "🌐 Access from your local network:"
+echo "👉 http://$LOCAL_IP:3000"
+echo "------------------------------------------------------"
 echo "To check logs, run: proot-distro login ubuntu -- pm2 logs"
